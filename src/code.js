@@ -5,7 +5,11 @@ let possicaoCobra = [
     [4,4],
     [4,3],
     [4,2]
-]
+] 
+// acho mais interesante deixar o corpo inteiro no inicio no mesmo espaço. tudo [4, 4] e quando add a morte,
+//  fazer algo para não permite a morte nesse caso. acho que fica mehor para o user, porque ele pode ir 
+//  para o lado onde estaria o corpo se mantiver desse jeito.
+let possicaoFruta = null;
 
 
 const conteineGrid = document.getElementById("conteineGrid")
@@ -32,11 +36,29 @@ function pegarCelular(row, col) {
 }
 
 function iniciarJogo() { 
-    
+    surgiFruta(); 
     desenharCobra();
     setInterval(moverCobra, 300);
 }
+// fruta 
 
+function surgiFruta() { 
+    let frutaCriada = false;
+    while (!frutaCriada) { 
+        let row = Math.floor(Math.random() * sizeGrid); 
+        let col = Math.floor(Math.random() * sizeGrid); 
+    
+    const celular = pegarCelular(row, col);
+
+    if (!celular.classList.contains('cobra')) {
+         possicaoFruta = [row, col];
+         celular.classList.add('fruta')
+         frutaCriada = true; 
+        }
+    }
+}
+
+// Tudo sobre a cobra 
 function desenharCobra() { 
   document.querySelectorAll('.cell').forEach(cell => {
     cell.classList.remove('cobra')
@@ -62,7 +84,14 @@ function moverCobra() {
 
   possicaoCobra.unshift(novaCabeca);
 
-  possicaoCobra.pop()
+  if (novaCabeca[0] === possicaoFruta[0] && novaCabeca[1] === possicaoFruta[1]) {
+    const celularFruta = pegarCelular(possicaoFruta[0], possicaoFruta[1]); 
+    celularFruta.classList.remove('fruta'); 
+
+    surgiFruta(); 
+  } else { 
+    possicaoCobra.pop(); 
+  }
   desenharCobra();
 }
 

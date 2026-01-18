@@ -20,3 +20,7 @@
   background-color: darkgreen !important;
   border-radius: 5px;
 }
+.fruta {
+  background-color: red !important;
+  border-radius: 50%; 
+}

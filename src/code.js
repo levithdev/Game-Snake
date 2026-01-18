@@ -1,8 +1,11 @@
 const sizeGrid = 8; 
 let start = false; 
 let direcao = 'direita';
-let posicaoCobra = [4, 4]
-let tamanho = 2; 
+let possicaoCobra = [
+    [4,4],
+    [4,3],
+    [4,2]
+]
 
 
 const conteineGrid = document.getElementById("conteineGrid")
@@ -29,28 +32,37 @@ function pegarCelular(row, col) {
 }
 
 function iniciarJogo() { 
-    setInterval(moverCobra, 300);
+    
     desenharCobra();
+    setInterval(moverCobra, 300);
 }
 
 function desenharCobra() { 
   document.querySelectorAll('.cell').forEach(cell => {
     cell.classList.remove('cobra')
   })
-  const celular = pegarCelular(posicaoCobra[0], posicaoCobra[1]); 
-  celular.classList.add('cobra')
+  possicaoCobra.forEach( parte => {
+    const celular = pegarCelular(parte[0], parte[1]);
+    celular.classList.add('cobra')
+  })
 }
 
 function moverCobra() {
+    let cabeca = possicaoCobra[0] 
+    let novaCabeca = [cabeca[0], cabeca[1]];
   if (direcao === "direita") {
-    posicaoCobra[1]++;
+    novaCabeca[1]++;
   } else if (direcao === "esquerda") {
-    posicaoCobra[1]--;
+    novaCabeca[1]--;
   } else if (direcao === "baixo") {
-    posicaoCobra[0]++;
+    novaCabeca[0]++;
   } else if (direcao === "cima") {
-    posicaoCobra[0]--;
+    novaCabeca[0]--;
   }
+
+  possicaoCobra.unshift(novaCabeca);
+
+  possicaoCobra.pop()
   desenharCobra();
 }
 

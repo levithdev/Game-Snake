@@ -2,16 +2,21 @@
     display: grid;
     width: 400px;
     height: 400px;
-    border: 2px solid black;
+    border: 10px solid black;
+    
 }
 .cell {
-    border: 1px solid black;
+    border: 0,1px solid black;
 
 }
 .white {
-  background-color: #f0d9b5;
+  background-color: #aad751f7;
 }
 
 .black {
-  background-color: #b58863;
+  background-color: #578A34;
+}
+.cobra {
+  background-color: darkgreen !important;
+  border-radius: 5px;
 }

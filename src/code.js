@@ -1,6 +1,7 @@
 const sizeGrid = 8; 
 let start = false; 
 let direcao = 'direita';
+let intervaloJogo = null;
 let possicaoCobra = [
     [4,4],
     [4,3],
@@ -36,10 +37,27 @@ function pegarCelular(row, col) {
 }
 
 function iniciarJogo() { 
+
+    if (intervaloJogo) return;
+
     surgiFruta(); 
     desenharCobra();
-    setInterval(moverCobra, 300);
+    intervaloJogo = setInterval(moverCobra, 300);
 }
+
+ function gameOver () {
+    clearInterval(intervaloJogo)
+    intervaloJogo = null
+    alert("Game over")
+
+    //restart game 
+    possicaoCobra = [[4,4], [4,3], [4,2]]; 
+    direcao = 'direita'; 
+
+    document.querySelectorAll('.cell').forEach (cell => {
+        cell.classList.remove('cobra', 'fruta');
+    })
+ } 
 // fruta 
 
 function surgiFruta() { 
@@ -81,9 +99,23 @@ function moverCobra() {
   } else if (direcao === "cima") {
     novaCabeca[0]--;
   }
+  if (novaCabeca[0] < 0 || novaCabeca[0] >= sizeGrid|| 
+      novaCabeca[1]< 0 || novaCabeca[1] >= sizeGrid) {
+        gameOver();
+        return;
+      }
+
+  let bateuNoCorpo = possicaoCobra.slice(1).some(parte => 
+    parte[0] === novaCabeca[0] && parte[1] === novaCabeca[1]
+  );
+  if( bateuNoCorpo) {
+    gameOver();
+    return;
+  }
 
   possicaoCobra.unshift(novaCabeca);
 
+  // se comeu a fruta 
   if (novaCabeca[0] === possicaoFruta[0] && novaCabeca[1] === possicaoFruta[1]) {
     const celularFruta = pegarCelular(possicaoFruta[0], possicaoFruta[1]); 
     celularFruta.classList.remove('fruta'); 
@@ -92,6 +124,7 @@ function moverCobra() {
   } else { 
     possicaoCobra.pop(); 
   }
+  console.log(cabeca[0], cabeca[1])
   desenharCobra();
 }
 

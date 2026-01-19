@@ -39,16 +39,17 @@ function pegarCelular(row, col) {
 function iniciarJogo() { 
 
     if (intervaloJogo) return;
-
+    start = true;
     surgiFruta(); 
     desenharCobra();
-    intervaloJogo = setInterval(moverCobra, 300);
+    intervaloJogo = setInterval(moverCobra, 200);
 }
 
  function gameOver () {
     clearInterval(intervaloJogo)
     intervaloJogo = null
     alert("Game over")
+    start = false;
 
     //restart game 
     possicaoCobra = [[4,4], [4,3], [4,2]]; 
@@ -124,7 +125,6 @@ function moverCobra() {
   } else { 
     possicaoCobra.pop(); 
   }
-  console.log(cabeca[0], cabeca[1])
   desenharCobra();
 }
 
@@ -137,5 +137,9 @@ document.addEventListener('keydown', (evento) => {
     direcao = 'esquerda';
   } else if (evento.key === 'ArrowRight' && direcao !== 'esquerda') {
     direcao = 'direita';
-  }
-});
+  } else if (evento.key === 'Enter' && start === false) {
+      iniciarJogo()
+  } else if (evento.key === ' ' && start === false) {
+      iniciarJogo()
+  } 
+ });

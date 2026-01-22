@@ -2,6 +2,7 @@ const sizeGrid = 8;
 let start = false; 
 let direcao = 'direita';
 let intervaloJogo = null;
+let pontuacao = 0; 
 let possicaoCobra = [
     [4,4],
     [4,3],
@@ -11,7 +12,7 @@ let possicaoCobra = [
 //  fazer algo para não permite a morte nesse caso. acho que fica mehor para o user, porque ele pode ir 
 //  para o lado onde estaria o corpo se mantiver desse jeito.
 let possicaoFruta = null;
-
+const pontuacaoEl = document.getElementById("pontuacao");
 
 const conteineGrid = document.getElementById("conteineGrid")
 conteineGrid.style.gridTemplateColumns = `repeat(${sizeGrid}, 1fr)`;
@@ -50,6 +51,8 @@ function iniciarJogo() {
     intervaloJogo = null
     alert("Game over")
     start = false;
+    pontuacao = 0; 
+    atualizarPontuacao()
 
     //restart game 
     possicaoCobra = [[4,4], [4,3], [4,2]]; 
@@ -63,6 +66,7 @@ function iniciarJogo() {
 
 function surgiFruta() { 
     let frutaCriada = false;
+
     while (!frutaCriada) { 
         let row = Math.floor(Math.random() * sizeGrid); 
         let col = Math.floor(Math.random() * sizeGrid); 
@@ -118,6 +122,8 @@ function moverCobra() {
 
   // se comeu a fruta 
   if (novaCabeca[0] === possicaoFruta[0] && novaCabeca[1] === possicaoFruta[1]) {
+    pontuacao = pontuacao + 1; 
+    atualizarPontuacao() 
     const celularFruta = pegarCelular(possicaoFruta[0], possicaoFruta[1]); 
     celularFruta.classList.remove('fruta'); 
 
@@ -143,3 +149,8 @@ document.addEventListener('keydown', (evento) => {
       iniciarJogo()
   } 
  });
+
+ //funcao para atualizar o palcar de pontuacao. 
+ function atualizarPontuacao() { 
+  pontuacaoEl.textContent = pontuacao;
+ }

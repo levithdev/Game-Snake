@@ -6,8 +6,7 @@
     
 }
 .cell {
-    border: 0,1px solid black;
-
+    border: 0.1px solid black;
 }
 .white {
   background-color: #aad751f7;
